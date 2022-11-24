@@ -15,20 +15,18 @@ app.post('/cadastrarProduto', async (req,res)=>{
   await Produto.create(req.body)
   .then (()=>{
     return res.json ({
-        erro:false,
-        mensagem:"Produto inserido com Sucesso!"
-    });
-  
+      erro:false,
+      mensagem:"Produto inserido com Sucesso!"});
+
   }).catch (()=>{
       return res.status(400).json ({
-          erro:true,
-          mensagem:"Erro no cadastro do produto!"
+        erro:true,
+        mensagem:"Erro no cadastro do produto!"});
   });
-});
 
 });
 
-// CONSULTA GERAL
+// CONSULTA TODOS OS PRODUTOS
 app.get ('/consultaProduto', async (req,res)=>{
   await Produto.findAll({}).then((ponto)=>{
     return res.json({
@@ -43,7 +41,7 @@ app.get ('/consultaProduto', async (req,res)=>{
   })
 });
 
-// CONSULTA POR ID
+// CONSULTA PRODUTO POR ID
 app.get ('/consultaProduto/:id', async (req,res)=>{
   const {id} = req.params
   try{
@@ -60,7 +58,7 @@ app.get ('/consultaProduto/:id', async (req,res)=>{
   }
 });
 
-// ALTERAÇÃO
+// ALTERAÇÃO DE UM PRODUTO
 app.put ('/updateProduto/:id', async (req,res)=>{ // 
   const {id} = req.params
   const novosProds = req.body;
@@ -87,6 +85,88 @@ app.delete ('/deleteProduto/:id', async (req,res)=>{
 
   try{
     await Produto.destroy ({where:{idproduto:Number(id)}})
+    return res.status(200).json({mensagem:`id ${id} Produto Excluído!`})
+  }catch (error){
+    return res.status(500).json(error.message)
+  }
+});
+
+// CADASTRAR CLIENTE
+app.post('/cadastrarCliente', async (req,res)=>{
+  
+  await Cliente.create(req.body)
+  .then (()=>{
+    return res.json ({
+      erro:false,
+      mensagem:"Cliente cadastrado com Sucesso!"});
+  
+  }).catch (()=>{
+      return res.status(400).json ({
+        erro:true,
+        mensagem:"Erro no cadastro do Cliente!"});
+  });
+
+});
+
+// CONSULTAR CLIENTES
+app.get ('/consultaCliente', async (req,res)=>{
+  await Cliente.findAll({}).then((ponto)=>{
+    return res.json({
+      erro:'false',
+      ponto
+    })
+  })
+  .catch(()=>{
+    return res.json({
+      erro:'true'
+    })
+  })
+});
+
+
+// CONSULTA CLIENTE POR ID
+app.get ('/consultaCliente/:id', async (req,res)=>{
+  const {id} = req.params
+  try{
+    const consulta = await Cliente.findOne({
+      where:{
+        idcliente: Number(id)
+      }
+    })
+    return res.status(200).json(consulta)
+  }
+  
+  catch (error){
+    return res.status(500).json(error.message)
+  }
+});
+
+// ALTERAÇÃO DE UM CLIENTE
+app.put ('/updateCliente/:id', async (req,res)=>{ // 
+  const {id} = req.params
+  const novosClientes = req.body;
+
+  try{
+    await Cliente.update(novosClientes, {
+      where:{
+        idcliente: Number(id) }}
+      )
+      const clienteatual = await Cliente.findOne({
+        where:{
+          idcliente: Number(id)
+        }
+      })
+      return res.status (200).json(clienteatual)
+  }catch (error){
+    return res.status(500).json(error.message)
+  }
+});
+
+// EXCLUIR PRODUTO
+app.delete ('/deleteCliente/:id', async (req,res)=>{
+  const {id} = req.params
+  try{
+    await Cliente.destroy ({where:{idcliente:Number(id)}})
     return res.status(200).json({mensagem:`id ${id} Produto Excluído!`})
   }catch (error){
     return res.status(500).json(error.message)

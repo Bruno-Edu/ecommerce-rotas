@@ -162,7 +162,7 @@ app.put ('/updateCliente/:id', async (req,res)=>{ //
   }
 });
 
-// EXCLUIR PRODUTO
+// EXCLUIR CLIENTE
 app.delete ('/deleteCliente/:id', async (req,res)=>{
   const {id} = req.params
   try{

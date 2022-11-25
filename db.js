@@ -2,7 +2,7 @@ const Sequelize = require ('sequelize'); // instânciando o Sequelize
 const sequelize = new Sequelize ('e_commerce','root','',{dialect:'mysql',host:'localhost'}); // criando conexão com BD já com uma DataBase Criado
 
 // Verificando se a conexão foi bem sucedida
-sequelize.authenticate() 
+sequelize.authenticate () 
 .then (function(){
     console.log('Conectado com o Banco de Dados !!!');
 })

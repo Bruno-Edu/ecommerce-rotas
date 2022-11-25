@@ -1,17 +1,16 @@
-const express = require ('express'); //instanciando a classe do Express
-const app = express(); // atribuindo uma variável para utilização nos métodos
-const Produto = require ('./produto'); //instanciando a classe do ponto que possui as querys
-const Cliente = require ('./cliente'); //instanciando a classe do ponto que possui as querys
+const express = require ('express'); //Instanciando a classe do Express já instalado usando NPM
+const app = express(); // Atribuindo uma variável para utilização nos métodos
+const Produto = require ('./produto'); //Instanciando a classe do ponto que possui as querys
+const Cliente = require ('./cliente'); //Instanciando a classe do ponto que possui as querys
 
-app.use(express.json())
+app.use(express.json())// 
 
-app.get('/', (request, response) => {
-    response.send ("<h1>E-Commerce</h1>");
+app.get('/', (request, response) => { //Primeira rota. 
+    response.send ("<h1>E-Commerce</h1>");//Resposta desssa rota é enviar um texto html
 });
 
 // CADASTRAR PRODUTO
 app.post('/cadastrarProduto', async (req,res)=>{
-  console.log (req.body);
   await Produto.create(req.body)
   .then (()=>{
     return res.json ({
@@ -23,7 +22,6 @@ app.post('/cadastrarProduto', async (req,res)=>{
         erro:true,
         mensagem:"Erro no cadastro do produto!"});
   });
-
 });
 
 // CONSULTA TODOS OS PRODUTOS
@@ -77,7 +75,7 @@ app.put ('/updateProduto/:id', async (req,res)=>{ //
   }catch (error){
     return res.status(500).json(error.message)
   }
-});
+}); 
 
 // EXCLUIR PRODUTO
 app.delete ('/deleteProduto/:id', async (req,res)=>{
